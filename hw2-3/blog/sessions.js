@@ -20,7 +20,7 @@ function SessionsDAO(db) {
         var current_date = (new Date()).valueOf().toString();
         var random = Math.random().toString();
         var session_id = crypto.createHash('sha1').update(current_date + random).digest('hex');
-
+        console.log('session making-', username);
         // Create session document
         var session = {'username': username, '_id': session_id}
 

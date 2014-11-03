@@ -29,7 +29,11 @@ function UsersDAO(db) {
         }
 
         // TODO: hw2.3
-        callback(Error("addUser Not Yet Implemented!"), null);
+        console.log('inserting-', user);
+        users.insert(user, function (err, doc) {
+            console.log('inserted-', doc);
+            callback(err, doc[0]);        
+        })
     }
 
     this.validateLogin = function(username, password, callback) {
@@ -38,7 +42,7 @@ function UsersDAO(db) {
         // Callback to pass to MongoDB that validates a user document
         function validateUserDoc(err, user) {
             "use strict";
-
+            console.log('found-', user);
             if (err) return callback(err, null);
 
             if (user) {
@@ -61,7 +65,9 @@ function UsersDAO(db) {
         }
 
         // TODO: hw2.3
-        callback(Error("validateLogin Not Yet Implemented!"), null);
+        console.log('finding-', username);
+        users.findOne({_id:username}, validateUserDoc)
+        // callback(Error("validateLogin Not Yet Implemented!"), null);
     }
 }
 
