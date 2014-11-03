@@ -19,13 +19,16 @@ MongoClient.connect(url, function(err, db) {
 
   cursor.each(function (err, doc) {
     if (err) throw err;
-    // if (doc === null) return db.close();
+    if (doc === null) return db.close();
     if (doc.State === lastState) {
       return;
     } else {
       lastState = doc.State;
       console.log('highest doc-', doc);
-      
+      dataCollection.update(doc, {$set:{"month_high":true}}, function (err, doc) {
+        if (err) throw err;
+        console.log('updated-', doc);
+      })
     }
 
   })
