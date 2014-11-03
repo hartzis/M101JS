@@ -10,21 +10,22 @@ MongoClient.connect(url, function(err, db) {
   var dataCollection = db.collection('data');
     
   var options = {
-    'sort': [["State", 1], ["Temperature", -1]
-  }
+    'sort': [["State", 1], ["Temperature", -1]]
+  };
 
-  var cursor = dataCollection.find();
+  var cursor = dataCollection.find({}, {}, options);
 
   var lastState = '';
 
   cursor.each(function (err, doc) {
     if (err) throw err;
-    if (doc === null) return db.close();
-    if (doc.state === lastState) {
+    // if (doc === null) return db.close();
+    if (doc.State === lastState) {
       return;
     } else {
-      lastState = doc.state;
+      lastState = doc.State;
       console.log('highest doc-', doc);
+      
     }
 
   })
