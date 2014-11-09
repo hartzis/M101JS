@@ -86,8 +86,8 @@ function PostsDAO(db) {
         }
 
         // hw3.3 TODO
-        posts.update({permalink:permalink}, {$insert{comments:comment}}, function (err, doc) {
-            console.log('inserted?', cod);
+        posts.update({permalink:permalink}, {$push:{comments:comment}}, function (err, doc) {
+            console.log('inserted?', doc);
             callback(err, permalink);
         })
         // callback(Error("addComment NYI"), null);
