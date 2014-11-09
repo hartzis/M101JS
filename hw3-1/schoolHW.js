@@ -29,7 +29,7 @@ MongoClient.connect(url, function(err, db) {
 
     cursor.each(function (err, doc) {
       if (err) throw err;
-      // if (doc === null) return db.close();
+      if (doc === null) return;
       console.log(doc);
       homeworks = doc.scores.filter(function (score) {
         return score.type === 'homework';
@@ -37,14 +37,16 @@ MongoClient.connect(url, function(err, db) {
       homeworks.sort(function (a,b) {
         return a.score - b.score;
       });
-      // console.log('homeworks-', homeworks);
-      // console.log('remove-', homeworks[0]);
-      // dataCollection.update(doc, {$unset:{"scores":homeworks[0]}}, function (err, doc) {
-      //   if (err) throw err;
-      //   console.log('updated-', doc, 'count-', count);
-      //   count = count - 1;
-      //   if (count === 0) return db.close();
-      // })
+      console.log('homeworks-', homeworks);
+      var removeHomework = homeworks[0];
+      console.log('remove-', removeHomework);
+
+      dataCollection.update(doc, {$pull:{"scores":removeHomework}}, function (err, doc) {
+        if (err) throw err;
+        console.log('updated-', doc, 'count-', count);
+        count = count - 1;
+        if (count === 0) return db.close();
+      })
 
     });
 
