@@ -30,7 +30,11 @@ function PostsDAO(db) {
 
         // now insert the post
         // hw3.2 TODO
-        callback(Error("insertEntry NYI"), null);
+        posts.insert(post, function (err, results) {
+            console.log('saved?', results);
+            callback(err, results[0].permalink);
+        });
+        // callback(Error("insertEntry NYI"), null);
     }
 
     this.getPosts = function(num, callback) {
